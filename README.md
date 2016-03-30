@@ -4,16 +4,17 @@ The repo represents the playbooks required to build a CoreOS Kubernetes stack on
 
 Please note, I have not yet decided how to handle the kube assets folder, the created kubecontrol is required to manage the stack with kubectl. As it stands today the assets are created as a subfolder with the PKI credentials gitignored. Considering each stack would in essense have its own folder with no secure or private information, aside from stack name and external DNS name, in theory they could just be commited with your fork of this repo.
 
-* Requirements
-* Xcode CLI tools (installs GIT and other tools. Click install, not get Xcode)
-```
-xcode-select --install
-```
-* Homebrew
+### Current Status: PKI created, working on userdata.
+
+#### Requirements for OSX workstation
+* Xcode CLI tools: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-xcode-cli-tools)
+* Homebrew: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-xcode-cli-tools)
+* Ansible: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-xcode-cli-tools)
+
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
-* Ansible
+
 ```
 brew install ansible
 ```
