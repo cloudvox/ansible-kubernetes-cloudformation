@@ -1,4 +1,8 @@
-This repo will build a fully functional kubernetes cloudfront stack
+ansible-kubernetes-cloudformation
+===
+The repo represents the playbooks required to build a CoreOS Kubernetes stack on Amazon Cloudformation. The intent is to have a reproducable, production capabale, pod & worker node auto-scaling deployment solution. All of the work on these playbooks have mirrored the steps taken by the CoreOS kube-aws tool, [documentation here](https://coreos.com/kubernetes/docs/latest/kubernetes-on-aws.html). The overall goal is to allow anisble configured aws shops to manage and deploy using the tools they already have in production.
+
+Please note, I have not yet decided how to handle the kube assets folder, the created kubecontrol is required to manage the stack with kubectl. As it stands today the assets are created as a subfolder with the PKI credentials gitignored. Considering each stack would in essense have its own folder with no secure or private information, aside from stack name and external DNS name, in theory they could just be commited with your fork of this repo.
 
 * Requirements
 * Xcode CLI tools (installs GIT and other tools. Click install, not get Xcode)
