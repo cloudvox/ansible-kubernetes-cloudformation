@@ -6,26 +6,27 @@ Please note, I have not yet decided how to handle the kube assets folder, the cr
 
 ### Current Status: PKI created, working on userdata.
 
-#### Requirements for OSX workstation
+#### Pre-Requirements for OSX workstation
 * Xcode CLI tools: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-xcode-cli-tools)
 * Homebrew: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-Homebrew)
-* Ansible: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-xcode-cli-tools)
+* Ansible: [Instructions] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/Install-ansible)
 
 
-
+#### Install aws-cli and boto (required by ansible cloud modules to communicate with the variable aws api's)
 ```
-brew install ansible
+ansible-playbook bootstrap_osx.yml -K
 ```
-* Setup AWS credentials
+
+#### Setup AWS credentials
+aws-cli, boto (tool ansible uses to communicate with aws-cli), and cloudformation require the following variables to communicate with the various aws API's during setup
+Information on where to obtain each of these varaibles can be found [here] ()
 ```
 export AWS_ACCESS_KEY_ID=MY-ACCESS-KEY
 export AWS_SECRET_ACCESS_KEY=MY-SECRET-KEY
 export AWS_REGION=MY-AWS-REGION
+export AWS_KMS_KEY=MY-AWS-ARN
 ```
-* Complete bootstrap with ansible
-```
-ansible-playbook bootstrap.yml -K
-```
+
 * Generate kube-aws AWS KMS Key (if you already have a kube-aws KMS key created, you can skip this step)
 ```
 aws kms --region=$AWS_REGION create-key --description="kube-aws assets"
@@ -33,7 +34,7 @@ aws kms create-alias --alias-name alias/kube-aws --target-key-id MY-AWS-KMS-ARN-
 ```
 * Setup KMS Key (if you used the step above, this is the same value used in --target-key-id)
 ```
-export AWS_KMS_KEY=MY-AWS-ARN
+
 ```
 * Generate an AWS EC2 Key Pair (if you already have a keypair you would like to use, you can skip this step)
 [Amazon Keypair documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair)
