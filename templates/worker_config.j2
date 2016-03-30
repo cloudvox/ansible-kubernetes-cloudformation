@@ -1,0 +1,28 @@
+HOME            = {{ directory }}
+RANDFILE        = $ENV::HOME/.rnd
+
+####################################################################
+[ req ]
+prompt              = no
+default_bits        = 2048
+default_keyfile     = worker-key.pem
+distinguished_name  = worker_distinguished_name
+req_extensions      = worker_req_extensions
+string_mask         = utf8only
+
+####################################################################
+[ worker_distinguished_name ]
+organizationName    = kube-aws
+commonName          = kube-worker
+
+####################################################################
+[ worker_req_extensions ]
+keyUsage             = critical, digitalSignature, keyEncipherment
+extendedKeyUsage     = clientAuth
+subjectAltName       = @alternate_names
+
+####################################################################
+[ alternate_names ]
+
+DNS.1       = *.*.compute.internal
+DNS.2       = *.ec2.internal

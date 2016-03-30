@@ -1,0 +1,62 @@
+---
+- name: check to see credentials directory exists
+  file: path={{ directory }}/ca state=directory
+  when: certType == "ca"
+  tags: cacert
+
+- name: prepare ca config
+  template: src=templates/ca_config.j2 dest={{ directory }}/ca/ca_config
+  when: certType == "ca"
+  tags: cacert
+
+- name: create ca index
+  copy: src=files/index.txt dest=/{{ directory }}/ca/index.txt
+  when: certType == "ca"
+  tags: cacert
+
+- name: create ca index
+  copy: src=files/serial.txt dest=/{{ directory }}/ca/serial.txt
+  when: certType == "ca"
+  tags: cacert
+
+- name: generate ca.pem and key
+  command: >
+    openssl req -x509 -sha256 -set_serial 0 -days 3650 -out {{ certName }}.pem
+    -newkey rsa:2048 -nodes -keyout {{ keyName }}.pem
+    -config ca/ca_config
+    -extensions 'extensions'
+    chdir={{ directory }}
+    creates={{ directory }}/{{ certName }}.pem
+  when: certType == "ca"
+  tags: cacert
+
+- name: prepare csr config
+  template: src=templates/{{ certName }}_config.j2 dest={{ directory }}/ca/{{ certName }}_config
+  when: certType == "unsigned" or certType == "signed"
+  tags: general
+
+- name: generate new csr and key
+  command: >
+    openssl req -sha256 -out ca/{{ certName }}.csr
+    -newkey rsa:2048 -nodes -keyout {{ keyName }}.pem
+    -config ca/{{ certName }}_config
+    chdir={{ directory }}
+    creates={{ directory }}/ca/{{ certName }}.csr
+  when: certType == "unsigned" or certType == "signed"
+  tags: general
+
+- name: prepare signing config
+  template: src=templates/{{ config }}.j2 dest={{ directory }}/ca/{{ config }}
+  when: certType == "signed" and config is defined
+  tags: general
+
+- name: sign cert
+  command: >
+    openssl ca -batch -policy signing_policy -extensions signing_req -notext
+    -config ca/{{ config }}
+    -out {{ certName }}.pem -infiles ca/{{ certName }}.csr
+    chdir={{ directory }}
+    creates={{ directory }}/{{ certName }}.pem
+  when: certType == "signed"
+  tags: general
+#openssl req -out ca.pem -x509 -nodes -sha256 -newkey rsa:2048 -set_serial 0 -keyout ca-key.pem -config cert_config -extensions 'extensions'

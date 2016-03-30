@@ -1,0 +1,17 @@
+HOME               = {{ directory }}
+RANDFILE           = $ENV::HOME/.rnd
+
+####################################################################
+[ req ]
+prompt                 = no
+distinguished_name     = info
+
+[ info ]
+organizationName       = kube-aws
+commonName             = kube-ca
+
+[ extensions ]
+keyUsage               = critical, keyCertSign, digitalSignature, keyEncipherment
+basicConstraints       = critical, CA:TRUE
+
+# see x509v3_config for other extensions

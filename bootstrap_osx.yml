@@ -1,0 +1,12 @@
+- name: bootstrap local machine
+  hosts: localhost
+  connection: local
+  become: true
+  gather_facts: False
+
+  tasks:
+  - name: install awscli
+    homebrew: name=awscli state=present
+
+  - name: install boto
+    pip: name=boto state=present

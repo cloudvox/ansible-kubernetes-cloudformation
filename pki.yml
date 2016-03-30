@@ -1,0 +1,21 @@
+- name: generate PKI
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  vars:
+    clusterName: "new-cluster"
+    externalDNSName: kube.rackdeploy.com
+    credLocation: "{{ playbook_dir }}/{{ clusterName }}/credentials"
+
+  roles:
+    - { role: openssl, directory: "{{ credLocation }}", certName: 'ca',        keyName: 'ca-key',        certType: 'ca' }
+    - { role: openssl, directory: "{{ credLocation }}", certName: 'worker',    keyName: 'worker-key',    certType: 'signed', config: 'sign_client' }
+    - { role: openssl, directory: "{{ credLocation }}", certName: 'admin',     keyName: 'admin-key',     certType: 'signed', config: 'sign_client' }
+    - { role: openssl, directory: "{{ credLocation }}", certName: 'apiserver', keyName: 'apiserver-key', certType: 'signed', config: 'sign_server' }
+  tasks:
+    - name: openssl cleanup
+      file: path={{ credLocation }}/ca state=absent
+
+    - name: adding gitignore for safety
+      copy: src=files/.gitignore dest=/{{ credLocation }}/.gitignore
