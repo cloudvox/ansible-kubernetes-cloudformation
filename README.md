@@ -34,28 +34,18 @@ ansible-playbook bootstrap_osx.yml -K
 
 #### Setup AWS credentials
 aws-cli, boto (tool ansible uses to communicate with aws-cli), and cloudformation require the following variables to communicate with the various aws API's during setup
-Information on where to obtain each of these varaibles can be found [here] ()
+Information on where to obtain each of these varaibles can be found [here] (https://github.com/cloudvox/ansible-kubernetes-cloudformation/wiki/AWS-Credentials)
 ```
 export AWS_ACCESS_KEY_ID=MY-ACCESS-KEY
 export AWS_SECRET_ACCESS_KEY=MY-SECRET-KEY
 export AWS_REGION=MY-AWS-REGION
+export AWS_KEYPAIR=MY-AWS-KEYPAIR
 export AWS_KMS_KEY=MY-AWS-ARN
 ```
 
-* Generate kube-aws AWS KMS Key (if you already have a kube-aws KMS key created, you can skip this step)
-```
-aws kms --region=$AWS_REGION create-key --description="kube-aws assets"
-aws kms create-alias --alias-name alias/kube-aws --target-key-id MY-AWS-KMS-ARN-FROM-ABOVE-COMMAND
-```
-* Setup KMS Key (if you used the step above, this is the same value used in --target-key-id)
-```
+To Be Continued
 
-```
-* Generate an AWS EC2 Key Pair (if you already have a keypair you would like to use, you can skip this step)
-[Amazon Keypair documentation](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair)
-* Setup Keypair name
-```
-export AWS_KEYPAIR=MY-AWS-KEYPAIR
+
 ```
 * Generate cluster.yaml
 ```
