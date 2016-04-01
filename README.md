@@ -14,6 +14,9 @@ There are still a few major challenges left to be solved once you have decided o
 #### Why Ansible?
 Let me get the most important reason out of the way first, this is the tool our company has settled on for configuration management. Having used Chef and Puppet in the past, each has its own benefits and drawbacks, but in a nutshell, at least at our scale, not having to install a client, having easy to read and code configuration files, and ansible not having an opinion on the central collection of our playbooks make it an easy choice for us. Find out more [here] (https://www.ansible.com/how-ansible-works)
 
+#### Why CoreOS?
+While the world of linux containers is not a new one, Docker has brought this technology to the forefront. As the operations world migrates from heavy virtual machines to docker container based services, there are a list of new challenges when it comes to scaling an application across containers. CoreOS is an operating system designed entirely to run a docker container infrastructure, from the distributed etcd, and systemd to fleet, the entire OS is designed to allow distributed management of core services across a cluster of host machines. This comes with the enormous benefit of lowering the amount of patches required to sustain a more secure and consistent infrastruture. Find out more [here](https://coreos.com/using-coreos/)
+
 #### Out of curiosity, why not ECS (Amazon EC2 Container Service)
 I will just make a quick note here, I deffinitly explored the option of using ECS, with the ECS service being so new there are multiple gaps in the technology. In general the service does not approach scalability from a container (service) prospective, there are no provisions to scale particular containers across your nodes in a distributed fashion. While it does have auto-scaling of docker nodes based on CPU/Mem etc, not having fine grained control over the automation of a docker service limits its capacity for production use.
 
